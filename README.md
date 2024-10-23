@@ -8,10 +8,12 @@ Andrea Godsey (Student)
 
 ## Project Description
 
-Implement graph.js into a basic website (On my Own)
+Implement graph.js into a basic website (On my Own as Practice)
 
 ## Circuit Description
 
 No circuit
 
 ## Live URL
+
+https://n422-homework-one.vercel.app
