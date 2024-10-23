@@ -4,8 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Charts of Cupcakes</title>
+    <style>
+      #chartButtons {
+        margin: 20px 0px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 20px;
+      }
+
+      #chartButtons button {
+        padding: 8px;
+        font-size: 16px;
+      }
+    </style>
   </head>
   <body>
     <h1>Testing this Page!</h1>
+    <div style="height: 300px">
+      <canvas id="chart"></canvas>
+    </div>
+
+    <div id="chartButtons"></div>
+
+    <button onclick="removeDatapoint()">Remove Datapoint</button>
+
+    <button onclick="addDatapoint()">Add Datapoint</button>
+
+    <input type="text" name="label" id="label" />
+    <input type="number" name="num" id="num" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
