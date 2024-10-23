@@ -14,10 +14,18 @@ let myChart = new Chart(canvasRef, {
     datasets: [
       {
         label: "Cupcakes Created",
-        data: [5, 10, 6, 7],
+        data: [4, 10, 8, 7],
         backgroundColor: ["#FFC0CB"],
       },
     ],
+  },
+  options: {
+    scales: {
+        y: {
+            min: 0,
+            max: 20,
+        },
+    },
   },
 });
 
@@ -26,8 +34,8 @@ let cupcakesCreated = {};
 
 //Function for getting Cupcakes that have been created
 async function getCupcakesCreated() {
-  const cupcakesCreatedRawData = await fetch(`/api/candysold`);
-  const candySoldData = await cupcakesCreatedRawData.json();
+  const cupcakesCreatedRawData = await fetch(`/api/cupcakesCreated`);
+  const cupcakesCreatedData = await cupcakesCreatedRawData.json();
 
   for(let i = 0; i < cupcakesCreatedData.cupcakesCreated.length; i++) {
   const cupcakeName = cupcakesCreatedData.cupcakesCreated[i];
@@ -112,20 +120,12 @@ const allCharts = {
             datasets: [
               {
                 label: "temp",
-                data: [79, 81, 89],
+                data: [79, 81, 89, 85],
                 backgroundColor: ["#FFC0CB"],
                 borderColor: ["#572649"]
               },
             ],
           },
-          options:{
-            scales: {
-                y: {
-                    min: 60,
-                    max: 100,
-                },
-            },
-          }
         },
       },
 
@@ -141,22 +141,32 @@ Object.values(allCharts).forEach(function (chart) {
     console.log(chart.name);
     myChart.destroy();
     myChart = new Chart(canvasRef, chart.config);
+    getCupcakesCreated();
   };
   //Add the button to the actual DOM
   document.querySelector("#chartButtons").appendChild(newButton);
 });
 
-function removeDatapoint() {
-    myChart.data.labels.pop();
-    myChart.update();
+async function removeDatapoint() {
+    // myChart.data.labels.pop();
+    // myChart.update();
+
+    await fetch(`/api/cupcakescreated/remove`, {
+      method: "DELETE",
+    });
+    getCupcakesCreated();
 }
 
-function addDatapoint() {
-    const numValue = parseFloat(document.getElementById("num").value);
-    const labelValue = document.getElementById("label").value;
+async function addDatapoint() {
+  const labelValue = document.getElementById("label").value;
 
-    myChart.data.labels.push(labelValue);
-    myChart.data.datasets[0].data.push(numValue);
+  await fetch(`/api/cupcakescreated/new`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ cupcakesCreated: labelValue }),
+  });
 
-    myChart.update();
+  getCupcakesCreated();
 }

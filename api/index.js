@@ -2,6 +2,8 @@ const express = require("express");
 
 const app = express();
 
+app.use(express.json());
+
 const cupcakesCreated = [
     "Strawberry",
     "Chocolate",
@@ -26,6 +28,13 @@ app.post("/api/cupcakescreated/new", function (req, res) {
     cupcakesCreated.push(req.body.cupcakesCreated);
     res.status(200).json({ cupcakesCreated: cupcakesCreated });
   });
+
+  app.delete("/api/cupcakescreated/remove", function (req, res) {
+    cupcakesCreated.pop();
+    res.status(200).json({ cupcakesCreated: cupcakesCreated });
+  });
+
+  
   
 
 const port = process.env.PORT || 4032;
